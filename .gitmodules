@@ -4,3 +4,6 @@
 [submodule "autogoal-contrib"]
 	path = autogoal-contrib
 	url = https://github.com/autogoal/autogoal-contrib
+[submodule "vendor/illiterate"]
+	path = vendor/illiterate
+	url = https://github.com/apiad/illiterate
