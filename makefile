@@ -37,12 +37,12 @@ clean:
 # docker-base  Builds the development base image from scratch.
 .PHONY: docker
 docker:
-	docker build . -t autogoal/autogoal:core -f dockerfiles/core/dockerfile
+	docker build . -t docker.uclv.cu/autogoal/autogoal:core -f dockerfiles/core/dockerfile
 
 # docker-contrib Builds the development image with target contrib from scratch. 
 .PHONY: docker-contrib
 docker-contrib:
-	docker build . -t autogoal/autogoal:$(CONTRIB) -f dockerfiles/development/dockerfile --build-arg extras="common $(CONTRIB) remote" --no-cache
+	docker build . -t docker.uclv.cu/autogoal/autogoal:$(CONTRIB) -f dockerfiles/development/dockerfile --build-arg extras="common $(CONTRIB) remote" --no-cache
 
 # docker-sklearn Builds the development image with sklearn and streamlit contrib from scratch. Includes autogoal-remote and autogoal-contrib.
 .PHONY: docker-streamlit-demo
@@ -62,7 +62,7 @@ docker-nltk:
 # pull         Pull the development image.
 .PHONY: pull
 pull:
-	docker pull autogoal/autogoal:latest
+	docker pull docker.uclv.cu/autogoal/autogoal:latest
 
 # pull-safe    Pull the development image using docker.uclv.cu.
 .PHONY: pull-safe
@@ -78,7 +78,7 @@ push:
 # shell        Opens a shell in the development image.
 .PHONY: shell
 shell:
-	docker-compose run --service-ports autogoal bash
+	docker-compose run --service-ports docker.uclv.cu/autogoal/autogoal bash
 
 .PHONY: streamlit-demo
 streamlit-demo:
