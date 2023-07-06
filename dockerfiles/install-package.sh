@@ -7,7 +7,8 @@ poetry config virtualenvs.create false
 for arg in "${contribs[@]}"
 do
     echo "Trying to install autogoal_$arg"
-    case $arg in
+    # take core build out
+    case $arg in 
         core)
             cd /home/coder/autogoal/autogoal && poetry install
             cd /home/coder/autogoal && pip install -e autogoal
