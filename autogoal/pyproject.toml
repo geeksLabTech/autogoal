@@ -19,7 +19,7 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.9.16"
+python = "^3.10"
 pytest = "^7.2.1"
 numpy = "^1.21.6"
 psutil = "^5.9.4"
@@ -32,7 +32,7 @@ scipy = "^1.5"
 termcolor = "^2.2.0"
 toml = "^0.10.2"
 tqdm = "^4.64.1"
-typer = "^0.7.0"
+typer = "^0.9.0"
 rich = "^13.2.0"
 Cython = "^0.29.33"
 networkx = "^2.4"
