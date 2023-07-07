@@ -3,16 +3,16 @@ set -e
 
 # Split the first argument into an array of words
 contribs=("$@")
-poetry config virtualenvs.create false
+# poetry config virtualenvs.create false
 for arg in "${contribs[@]}"
 do
     echo "Trying to install autogoal_$arg"
     # take core build out
     case $arg in 
-        # core)
-        #     cd /home/coder/autogoal/autogoal && poetry install --no-root
-        #     cd /home/coder/autogoal && pip install -e autogoal 
-        # ;;
+        core)
+            cd /home/coder/autogoal/autogoal && poetry install --no-interaction --no-root
+            cd /home/coder/autogoal && pip install -e autogoal 
+        ;;
         remote)
             cd /home/coder/autogoal/autogoal-remote && poetry install --no-root --no-interaction
             cd /home/coder/autogoal && pip3 install -e autogoal-remote
