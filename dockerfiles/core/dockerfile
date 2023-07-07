@@ -20,7 +20,8 @@ RUN apt update \
   make \
   gcc \
   build-essential \ 
-  python3-dev
+  python3-dev \
+  python3-pip
 
 
 # =====================
@@ -50,8 +51,15 @@ ENV PATH=/opt/pipx/bin:/app/.venv/bin:$PATH PIPX_BIN_DIR=/opt/pipx/bin PIPX_HOME
 COPY bash.bashrc /etc
 RUN chmod +x /etc/bash.bashrc
 ENV BUILD_ENVIRONMENT="development"
+
+RUN python3 -m pip install --no-cache-dir --upgrade --user "pipx==$PIPX_VERSION"
+RUN python3 -m pipx ensurepath
+RUN python3 -m pipx completions
+
+RUN python3 -m pipx install "poetry==$POETRY_VERSION"
+
 # ENV XDG_CACHE_HOME="/opt/dev/cache"
-WORKDIR /home/coder/autogoal
+# WORKDIR /home/coder/autogoal
 
 
 
@@ -65,19 +73,18 @@ COPY makefile /home/coder/autogoal/
 # RUN poetry config virtualenvs.create false --local
 
 SHELL ["/bin/bash", "-c"]
-USER coder
-RUN sudo mkdir -p /home/coder/autogoal/data && sudo chown coder:coder /home/coder/autogoal
+# USER coder
+RUN sudo mkdir -p /home/coder/autogoal/data 
+# RUN sudo chown coder:coder /home/coder/autogoal
+# RUN sudo mkdir -p $HOME/.cache/pypoetry/virtualenvs/
 VOLUME /home/coder/autogoal
 RUN sudo rm -rf /home/coder/autogoal/storage
-RUN sudo chown -R coder /home/coder
+# RUN sudo chown -R coder /home/coder
 
 # Copy code-base for autogoal-core
 COPY autogoal /home/coder/autogoal/autogoal
 
-RUN python -m pip install --no-cache-dir --upgrade --user pip "pipx==$PIPX_VERSION"
-# RUN python -m pipx ensurepath
-# RUN python -m pipx completions
-RUN pipx install "poetry==$POETRY_VERSION"
+
 # Copy code-base for autogoal-contrib
 COPY autogoal-contrib /home/coder/autogoal/autogoal-contrib
 
@@ -86,6 +93,10 @@ COPY autogoal-remote /home/coder/autogoal/autogoal-remote
 
 # Install autogoal core
 COPY dockerfiles/install-package.sh install-package.sh 
+
+RUN cd /home/coder/autogoal/autogoal && poetry install --no-interaction --no-root
+RUN cd /home/coder/autogoal && pip3 install -e autogoal
+
 RUN ./install-package.sh core
 
 CMD ["/bin/bash"]
