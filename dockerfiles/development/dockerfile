@@ -2,7 +2,7 @@
 # Autogoal development image
 # ---------------------
 
-FROM autogoal/autogoal:core
+FROM docker.uclv.cu/autogoal/autogoal:core
 
 USER root
 
