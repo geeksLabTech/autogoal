@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Dict, List, Tuple
 import dill as pickle
 import zipfile
+from message_system.message_system import MessageSystem
 
 import numpy as np
 
@@ -69,7 +70,8 @@ class AutoML:
         self.search_kwargs = search_kwargs
         self._unpickled = False
         self.export_path = None
-
+        self.message_system = MessageSystem()
+        
         # If objectives were not specified as iterables then create the correct objectives object
         if not type(self.objectives) is type(tuple) and not type(
             self.objectives
@@ -106,7 +108,19 @@ class AutoML:
                     exclude=self.exclude_filter,
                 )
                 registry += remote_registry
-
+            else:
+                msg = self.message_system.receive(service_name="autogoal")
+                if msg:
+                    ip,port = msg.split()
+                    port = int(port)
+                    
+                    remote_registry = find_remote_classes(
+                    sources=[(ip,port)],
+                    include=self.include_filter,
+                    exclude=self.exclude_filter,
+                    )
+                    registry += remote_registry
+                    
         return build_pipeline_graph(
             input_types=self.input,
             output_type=self.output,
