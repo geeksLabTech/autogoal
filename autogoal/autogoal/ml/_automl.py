@@ -8,6 +8,7 @@ from typing import Dict, List, Tuple
 import dill as pickle
 import zipfile
 from message_system.message_system import MessageSystem
+from resource_monitor_scanner import log_system_usage
 
 import numpy as np
 
@@ -71,6 +72,9 @@ class AutoML:
         self._unpickled = False
         self.export_path = None
         self.message_system = MessageSystem()
+        
+        resource_monitor = threading.Thread(target=log_system_usage, args=(-1,))
+        resource_monitor.start()
         
         # If objectives were not specified as iterables then create the correct objectives object
         if not type(self.objectives) is type(tuple) and not type(
