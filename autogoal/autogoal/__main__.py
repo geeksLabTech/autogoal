@@ -18,6 +18,7 @@ from autogoal.search import RichLogger
 from autogoal.utils import Gb, Min, inspect_storage
 
 from autogoal.datasets import datapath, get_datasets_list, download, dummy
+import autogoal.logging
 # from resource_monitor_scanner  import serve as serve_gui_monitor
 
 autogoal.logging.setup("WARNING")
@@ -149,13 +150,13 @@ def contrib_download(
     """
 
     try:
-        from autogoal_contrib import ContribStatus, status, download_contrib
+        from autogoal_contrib import ContribStatus, status, download
     except:
         raise Exception("autogoal-contrib not installed")
 
     if status()[f"autogoal.contrib.{contrib}"] == ContribStatus.Ready:
         console.print(f"✅ Nothing to download for contrib `{contrib}`.")
-    elif download_contrib(contrib):
+    elif download(contrib):
         console.print(f"✅ Succesfully downloaded files for contrib `{contrib}`.")
     else:
         console.print(f"❌ Cannot download files for contrib `{contrib}`.")
@@ -354,12 +355,12 @@ def data_generate():
     🎲 Generate a random dataset.
     """
 
-@data_app.command("monitor")
-def launch_monitor():
-    """
-    🖥️ Launch Streamlit monitor.
-    """
-    serve_gui_monitor()
+# @data_app.command("monitor")
+# def launch_monitor():
+#     """
+#     🖥️ Launch Streamlit monitor.
+#     """
+#     serve_gui_monitor()
 
 
 if __name__ == "__main__":
