@@ -18,7 +18,7 @@ from autogoal.search import RichLogger
 from autogoal.utils import Gb, Min, inspect_storage
 
 from autogoal.datasets import datapath, get_datasets_list, download, dummy
-from resource_monitor_scanner  import serve as serve_gui_monitor
+# from resource_monitor_scanner  import serve as serve_gui_monitor
 
 autogoal.logging.setup("WARNING")
 
